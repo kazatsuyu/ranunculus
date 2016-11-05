@@ -1,0 +1,10 @@
+#cmake
+*.cmake
+CMakeFiles/
+Testing/
+CMakeCache.txt
+Makefile
+
+#tests
+
+/tests/*_test
