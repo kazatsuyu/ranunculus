@@ -1,4 +1,4 @@
-#include "../include/integer_sequence.hpp"
+#include "../include/ranunculus/integer_sequence.hpp"
 
 namespace is = ranunculus::integer_sequence;
 
