@@ -1,10 +1,12 @@
-add_executable(integer_sequence_test
-               integer_sequence_test.cpp)
-add_executable(type_sequence_test
-               type_sequence_test.cpp)
-add_test(NAME integer_sequence
-         COMMAND $<TARGET_FILE:integer_sequence_test>)
-add_test(NAME type_sequence
-         COMMAND $<TARGET_FILE:type_sequence_test>)
+function(ranunculus_add_test name)
+    add_executable(${name}_test ${ARGN} test_main.cpp)
+    add_test(NAME ${name} COMMAND $<TARGET_FILE:${name}_test>)
+endfunction()
 
+include_directories(../submodules/iutest/include)
+
+ranunculus_add_test(integer_sequence integer_sequence_test.cpp)
+ranunculus_add_test(type_sequence type_sequence_test.cpp)
+ranunculus_add_test(bitcount bitcount_test.cpp)
+ranunculus_add_test(operators operators_test.cpp)
 

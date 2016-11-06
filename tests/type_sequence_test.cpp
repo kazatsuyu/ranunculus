@@ -16,4 +16,3 @@ using t10 = ts::head<t9, 2>;
 using t11 = ts::tail<t9, 3>;
 using t12 = ts::insert<t9, 3, void, std::nullptr_t>;
 
-int main() {}

@@ -16,4 +16,3 @@ using t10 = is::head<t9, 2>;
 using t11 = is::tail<t9, 3>;
 using t12 = is::insert<t9, 3, 1, 4>;
 
-int main() {}
