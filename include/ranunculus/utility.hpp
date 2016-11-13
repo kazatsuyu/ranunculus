@@ -19,5 +19,16 @@ using namespace v1;
 } // namespace utility
 } // namespace ranunculs
 
+#define RANUNCULUS_EXCEPT_WHEN(condition, exception) \
+    if(condition) {\
+        throw exception(std::string(__func__)\
+                        + ": ("\
+                        + #condition\
+                        + ") at "\
+                        + __FILE__\
+                        + ":"\
+                        + __LINE__);\
+    }
+
 #endif
 
