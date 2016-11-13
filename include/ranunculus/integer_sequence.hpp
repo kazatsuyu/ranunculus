@@ -14,7 +14,6 @@ namespace v1 {
 
 namespace detail {
 
-
 template<typename T1> struct value_type_of_;
 template<typename T, template<typename, T ...> class TT, T ...A>
 struct value_type_of_<TT<T, A...>> {
@@ -88,13 +87,13 @@ struct at_<TT<T, A...>> {
 template<typename T>
 constexpr auto at(size_t n) noexcept { return at_<T>::invoke(n); }
 
-template<typename T, template<value_type_of<T>...> class TT> struct apply_;
+template<typename T, template<value_type_of<T>...> class TT> struct assign_;
 template<typename T, template<typename, T...> class TT1, T ...A, template<T...> class TT2>
-struct apply_<TT1<T, A...>, TT2> {
+struct assign_<TT1<T, A...>, TT2> {
     using type = TT2<A...>;
 };
 template<typename T, template<value_type_of<T>...> class TT>
-using apply = typename detail::apply_<T, TT>::type;
+using assign = typename detail::assign_<T, TT>::type;
 
 template<typename T, size_t B, size_t E> struct slice_;
 template<typename T, template<typename, T...> class TT, T ...A, size_t B, size_t E>
@@ -107,10 +106,19 @@ class slice_<TT<T, A...>, B, E> {
         using type = TT<T, at<TT<T, A...>>(A1)...>;
     };
 public:
-    using type = typename apply<range, helper>::type;
+    using type = typename assign<range, helper>::type;
 };
 template<typename T, size_t B = 0, size_t E = size_of<T>, enable_when<(B<=E)> = nullptr>
 using slice = typename slice_<T, B, E>::type;
+
+template<typename T, template<value_type_of<T>> class TT> struct map_;
+template<typename T, template<typename, T...> class TT1, T ...A, template<T> class TT2>
+struct map_<TT1<T, A...>, TT2> {
+    using type = TT1<T, TT2<A>::value...>;
+};
+
+template<typename T, template<value_type_of<T>> class TT>
+using map = typename map_<T, TT>::type;
 
 } // namespce detail;
 
@@ -120,9 +128,13 @@ using detail::make_range;
 using detail::append;
 using detail::prepend;
 using detail::at;
-using detail::apply;
+using detail::assign;
 using detail::size_of;
 using detail::slice;
+using detail::map;
+
+template<typename T, template<value_type_of<T> ...> class TT>
+using apply = typename assign<T, TT>::type;
 
 template<typename T, size_t N>
 using head = slice<T, 0, N>;

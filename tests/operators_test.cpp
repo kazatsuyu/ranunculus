@@ -11,8 +11,8 @@ enum class hoge {};
 
 struct piyo {};
 
-bool operator ==(const piyo&, const piyo&) { return true; }
-bool operator >(const piyo&, const piyo&) { return false; }
+constexpr bool operator ==(const piyo&, const piyo&) noexcept { return true; }
+constexpr bool operator >(const piyo&, const piyo&) noexcept { return false; }
 
 namespace ranunculus { namespace operators {
 
@@ -28,14 +28,15 @@ struct implement_flags<piyo> {
 
 }} // namespace ranunculus::operators
 
+constexpr piyo c{}, d{};
+
+static_assert(c == d, "");
+static_assert(!(c != d), "");
+static_assert(c <= d, "");
+static_assert(!(c > d), "");
+
 IUTEST(Test, test) {
     hoge a{};
     hoge b{};
     a | b;
-    piyo c;
-    piyo d;
-    c == d;
-    c > d;
-    c != d;
-    c <= d;
 }

@@ -192,12 +192,12 @@ template<typename T>
 using implementable = enable_when<implement_traits<T>::conditional>;
 
 template<typename T, implementable<T> = nullptr>
-bool operator ==(const T& lhs, const T& rhs) noexcept(noexcept(lhs != rhs)) {
+constexpr bool operator ==(const T& lhs, const T& rhs) noexcept(noexcept(lhs != rhs)) {
     return !(lhs != rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-bool operator !=(const T& lhs, const T& rhs) noexcept(noexcept(lhs == rhs)) {
+constexpr bool operator !=(const T& lhs, const T& rhs) noexcept(noexcept(lhs == rhs)) {
     return !(lhs == rhs);
 }
 

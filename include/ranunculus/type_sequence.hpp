@@ -87,13 +87,13 @@ public:
 template<typename T, size_t N, enable_when<(N < size_of<T>)> = nullptr>
 using at = typename at_<T, N>::type;
 
-template<typename T, template<typename...> class TT> struct apply_;
+template<typename T, template<typename...> class TT> struct assign_;
 template<template<typename...> class TT1, typename ...TA, template<typename...> class TT2>
-struct apply_<TT1<TA...>, TT2> {
+struct assign_<TT1<TA...>, TT2> {
     using type = TT2<TA...>;
 };
 template<typename T, template<typename...> class TT>
-using apply = typename detail::apply_<T, TT>::type;
+using assign = typename detail::assign_<T, TT>::type;
 
 template<typename T, size_t B, size_t E> struct slice_;
 template<template<typename...> class TT, typename ...TA, size_t B, size_t E>
@@ -106,10 +106,19 @@ class slice_<TT<TA...>, B, E> {
         using type = TT<at<TT<TA...>, A1>...>;
     };
 public:
-    using type = typename integer_sequence::apply<range, helper>::type;
+    using type = typename integer_sequence::assign<range, helper>::type;
 };
 template<typename T, size_t B = 0, size_t E = size_of<T>, enable_when<(B<=E)> = nullptr>
 using slice = typename slice_<T, B, E>::type;
+
+template<typename T, template<typename> class TT> struct map_;
+template<template <typename ...> class TT1, typename ...TA, template<typename> class TT2>
+struct map_<TT1<TA...>, TT2> {
+    using type = TT1<typename TT2<TA>::type...>;
+};
+
+template<typename T, template<typename> class TT>
+using map = typename map_<T, TT>::type;
 
 } // namespce detail;
 
@@ -119,8 +128,12 @@ using detail::append;
 using detail::prepend;
 using detail::size_of;
 using detail::at;
-using detail::apply;
+using detail::assign;
 using detail::slice;
+using detail::map;
+
+template<typename T, template<typename ...> class TT>
+using apply = typename assign<T, TT>::type;
 
 template<typename T, size_t N>
 using head = slice<T, 0, N>;
