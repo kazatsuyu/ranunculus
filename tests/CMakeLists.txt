@@ -9,4 +9,4 @@ ranunculus_add_test(integer_sequence integer_sequence_test.cpp)
 ranunculus_add_test(type_sequence type_sequence_test.cpp)
 ranunculus_add_test(bitcount bitcount_test.cpp)
 ranunculus_add_test(operators operators_test.cpp)
-
+ranunculus_add_test(array_view array_view_test.cpp)

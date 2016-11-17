@@ -2,6 +2,7 @@
 #define RANUNCULUS_OPERATORS_HPP
 
 #include "arith.hpp"
+#include "compare.hpp"
 
 namespace ranunculus {
 namespace operators {
@@ -192,33 +193,33 @@ template<typename T>
 using implementable = enable_when<implement_traits<T>::conditional>;
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator ==(const T& lhs, const T& rhs) noexcept(noexcept(lhs != rhs)) {
-    return !(lhs != rhs);
+constexpr bool operator ==(const T& lhs, const T& rhs) noexcept(noexcept(compare::eq(lhs, rhs))) {
+    return compare::eq(lhs,  rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator !=(const T& lhs, const T& rhs) noexcept(noexcept(lhs == rhs)) {
-    return !(lhs == rhs);
+constexpr bool operator !=(const T& lhs, const T& rhs) noexcept(noexcept(compare::ne(lhs, rhs))) {
+    return compare::ne(lhs, rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator <(const T& lhs, const T& rhs) noexcept(noexcept(lhs >= rhs)) {
-    return !(lhs >= rhs);
+constexpr bool operator <(const T& lhs, const T& rhs) noexcept(noexcept(compare::lt(lhs,  rhs))) {
+    return compare::lt(lhs, rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator <=(const T& lhs, const T& rhs) noexcept(noexcept(lhs > rhs)) {
-    return !(lhs > rhs);
+constexpr bool operator <=(const T& lhs, const T& rhs) noexcept(noexcept(compare::le(lhs, rhs))) {
+    return compare::le(lhs, rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator >=(const T& lhs, const T& rhs) noexcept(noexcept(lhs < rhs)) {
-    return !(lhs < rhs);
+constexpr bool operator >=(const T& lhs, const T& rhs) noexcept(noexcept(compare::ge(lhs, rhs))) {
+    return compare::ge(lhs, rhs);
 }
 
 template<typename T, implementable<T> = nullptr>
-constexpr bool operator >(const T& lhs, const T& rhs) noexcept(noexcept(lhs <= rhs)) {
-    return !(lhs <= rhs);
+constexpr bool operator >(const T& lhs, const T& rhs) noexcept(noexcept(compare::gt(lhs, rhs))) {
+    return compare::gt(lhs, rhs);
 }
 
 } // namespace detail

@@ -58,7 +58,7 @@ template<typename T>
 using convertible_integral_t = typename convertible_integral<T>::type;
 
 template<typename T, concepts::not_pointer<T> = nullptr>
-convertible_integral_t<T> to_integral(T value) noexcept {
+constexpr convertible_integral_t<T> to_integral(T value) noexcept {
     return static_cast<convertible_integral_t<T>>(value);
 }
 
@@ -68,7 +68,7 @@ convertible_integral_t<T> to_integral(T value) noexcept {
 }
 
 template<typename T, concepts::not_pointer<T> = nullptr>
-T integral_to(convertible_integral_t<T> value) noexcept {
+constexpr T integral_to(convertible_integral_t<T> value) noexcept {
     return static_cast<T>(value);
 }
 
@@ -79,7 +79,7 @@ T integral_to(uintptr_t value) noexcept {
 
 template<typename T>
 constexpr T add(T lhs, T rhs) noexcept {
-    return integral_to<T>(to_integral(lhs) + to_base(rhs));
+    return integral_to<T>(to_integral(lhs) + to_integral(rhs));
 }
 
 template<typename T>
@@ -89,7 +89,7 @@ constexpr T inc(T value) noexcept {
 
 template<typename T>
 constexpr T sub(T lhs, T rhs) noexcept {
-    return integral_to<T>(to_integral(lhs) - to_base(rhs));
+    return integral_to<T>(to_integral(lhs) - to_integral(rhs));
 }
 
 template<typename T>
@@ -104,17 +104,17 @@ constexpr T minus(T value) noexcept {
 
 template<typename T>
 constexpr T mul(T lhs, T rhs) noexcept {
-    return integral_to<T>(to_integral(lhs) * to_base(rhs));
+    return integral_to<T>(to_integral(lhs) * to_integral(rhs));
 }
 
 template<typename T>
 constexpr T div(T lhs, T rhs) noexcept {
-    return integral_to<T>(to_integral(lhs) / to_base(rhs));
+    return integral_to<T>(to_integral(lhs) / to_integral(rhs));
 }
 
 template<typename T>
 constexpr T mod(T lhs, T rhs) noexcept {
-    return integral_to<T>(to_integral(lhs) % to_base(rhs));
+    return integral_to<T>(to_integral(lhs) % to_integral(rhs));
 }
 
 template<typename T>
