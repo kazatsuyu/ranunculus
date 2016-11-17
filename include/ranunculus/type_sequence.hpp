@@ -19,6 +19,10 @@ template<template<typename...> class TT, typename ...TA1, typename ...TA2>
 struct concat_<TT<TA1...>, TT<TA2...>> {
     using type = TT<TA1..., TA2...>;
 };
+template<typename T1, typename T2, typename ...TA>
+struct concat_<T1, T2, TA...> {
+    using type = typename concat_<typename concat_<T1, T2>::type, TA...>::type;
+};
 template<typename ...TA>
 using concat = typename concat_<TA...>::type;
 
